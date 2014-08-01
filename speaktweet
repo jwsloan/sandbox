@@ -3,7 +3,6 @@
 require "net/http"
 require "uri"
 
-
 def fetch(uri_str, limit = 10)
   return if limit == 0
 
@@ -22,8 +21,6 @@ def fetch(uri_str, limit = 10)
   end
 end
 
-
-
 def speak_tweet_for(handle) 
   twitter_url = "https://www.twitter.com/#{handle}"
   contents = fetch twitter_url
@@ -36,8 +33,12 @@ def speak_tweet_for(handle)
     .gsub(/[^\w ]+/,"")
     .gsub(/10A/,"?")
   tweet = tweet.empty? ? "aww shucks. I got nothin." : tweet
-  exec 'say ' + tweet
+  system 'say ' + tweet
 end
 
 
-speak_tweet_for ARGV[0]
+while true 
+  speak_tweet_for ARGV[0]
+  break if ARGV[1].nil?
+  sleep ARGV[1].to_i
+end
